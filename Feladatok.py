@@ -19,6 +19,7 @@ class Feladatok():
         #ha valaki ki nyitja a postaládát akor meg változik a szin és jelezni hogy levél érkezett
         csukva_szin =self.cs.color()
         if(self.cs.color()!=csukva_szin):
+            wait(1000)
             ev3.screen.print("Leveled érkezett!")
             #szine nem ani mint amugy akkor kuldon uzenetet különben nem
 
