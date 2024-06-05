@@ -12,8 +12,8 @@ class Feladatok():
     def __init__(self):
         self.ev3 = EV3Brick()# tégla
         self.cs =ColorSensor(Port.S3)#szenzorok
-        #self.ts =TouchSensor(Port.S1)
-        #self.us =UltrasonicSensor(Port.S4)
+        self.ts =TouchSensor(Port.S1)
+        self.us =UltrasonicSensor(Port.S4)
         
     def okos_postalada(self):
         #ha valaki ki nyitja a postaládát akor meg változik a szin és jelezni hogy levél érkezett
@@ -22,8 +22,24 @@ class Feladatok():
         if(self.cs.color()!=csukva_szin):
             wait(1000)
             self.ev3.screen.print("Leveled érkezett!")
+            print("Leveled érkezett!")
             #szine nem ani mint amugy akkor kuldon uzenetet különben nem
         wait(1000)
+    def lampaKapcsolasUltraSensor(self):
+        alapTavolsag = self.us.distance(silent=False)
+        while True:
+            if self.ts.pressed():
+                self.lampaFel()
+                wait(2)
+            elif(self.ts.pressed()):
+                self.lampaLe()
+                wait(2)
+            else:
+                if self.us.distance(silent=False) < alapTavolsag:
+                    self.lampaFel()
+                else:
+                    #wait(500)
+                    self.lampaLe()
 
     def csipog(self):
         self.ev3.speaker.beep()
